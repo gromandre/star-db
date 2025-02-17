@@ -1,17 +1,36 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+class SwapiService {
+    _apiBase = "https://swapi.dev/api";
+
+    async getResource(url) {
+        const res = await fetch(`${this._apiBase}${url}`);
+    }
+}
+
+const apiUrl = "https://swapi.dev/api/people/1/";
+
+async function fetchData(url) {
+    try {
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            throw new Error("Network response was not ok");
+        }
+
+        const data = await response.json();
+        console.log(data);
+    } catch (error) {
+        console.error("Ошибка:", error);
+    }
+}
+
+fetchData(apiUrl);
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+    <div>
+        <h1>Hello Worlddsvsd</h1>
+    </div>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
