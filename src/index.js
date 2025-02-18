@@ -5,28 +5,54 @@ class SwapiService {
     _apiBase = "https://swapi.dev/api";
 
     async getResource(url) {
-        const res = await fetch(`${this._apiBase}${url}`);
-    }
-}
+        try {
+            const response = await fetch(`${this._apiBase}${url}`);
 
-const apiUrl = "https://swapi.dev/api/people/1/";
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
 
-async function fetchData(url) {
-    try {
-        const response = await fetch(url);
-
-        if (!response.ok) {
-            throw new Error("Network response was not ok");
+            return await response.json();
+        } catch (error) {
+            console.error("Ошибка:", error);
         }
+    }
 
-        const data = await response.json();
-        console.log(data);
-    } catch (error) {
-        console.error("Ошибка:", error);
+    async getAllPeople() {
+        const res = await this.getResource("/people/");
+        return res.results;
+    }
+
+    getPerson(id) {
+        return this.getResource(`/people/${id}`);
+    }
+
+    async getAllPlanets() {
+        const res = await this.getResource("/planets/");
+        return res.results;
+    }
+
+    getPlanet(id) {
+        return this.getResource(`/planets/${id}`);
+    }
+
+    async getAllStarships() {
+        const res = await this.getResource("/starships/");
+        return res.results;
+    }
+
+    getStarship(id) {
+        return this.getResource(`/starships/${id}`);
     }
 }
 
-fetchData(apiUrl);
+const swapi = new SwapiService();
+
+swapi.getAllPeople().then((people) => {
+    people.forEach((person) => {
+        console.log(person.name);
+    });
+});
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
