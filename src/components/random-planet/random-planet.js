@@ -19,7 +19,9 @@ export default class RandomPlanet extends Component {
     }
 
     updatePlanet() {
-        this.swapiService.getPlanet(10).then((planet) => {
+        let numberPlanet = Math.floor(Math.random() * 25) + 1;
+
+        this.swapiService.getPlanet(numberPlanet).then((planet) => {
             this.setState({
                 name: planet.name,
                 population: planet.population,
